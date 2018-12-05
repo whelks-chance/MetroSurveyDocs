@@ -3,12 +3,6 @@ Babel==2.6.0
 certifi==2018.4.16
 chardet==3.0.4
 CommonMark==0.5.4
-Django==2.0.4
-django-bootstrap-form==3.4
-django-cors-headers==2.3.0
-django-extensions==2.0.7
-django-jet==1.0.7
-django-sequences==2.2
 docutils==0.14
 et-xmlfile==1.0.1
 feedparser==5.2.1
@@ -31,7 +25,6 @@ Pygments==2.3.0
 pyparsing==2.2.0
 pytz==2018.3
 recommonmark==0.4.0
-requests==2.19.1
 rsa==3.4.2
 simplejson==3.14.0
 six==1.11.0
