@@ -19,6 +19,7 @@ User guide too.
 
    quickstart
    usage
+   input_data
    admins
 
 

@@ -1,8 +1,9 @@
-Admins
-======
+Administrator Guide
+===================
 
 Admin instructions
 
+------------
 Installation
 ------------
 
@@ -35,6 +36,7 @@ And the output similar to::
 
 Shows the server is running on the default port of ``8000``
 
+------------
 Add the data
 ------------
 
@@ -46,49 +48,91 @@ and complete the inputs requested.
 
 Via a web browser, navigate to the admin page at ``/admin``. Log in using the credentials just created.
 
-At the ``SURVEY UPLOAD`` widget on this page
+At the ``SURVEY UPLOAD`` widget, use the ``Browse`` dialog option to select the Excel spreadsheet of ``Attributes & Levels`` and ``Design Matrix`` worksheets, :doc:`described here </input_data>`.
 
-.. figure:: _static/IcoCivilSocietyCol.png
+
+.. figure:: _static/survey_upload_widget.PNG
     :align: center
+    :figwidth: 75%
 
-
+--------------------------------
 Get the info from the admin page
 --------------------------------
 
+.. figure:: _static/create_html_widget.PNG
+    :align: center
+    :figwidth: 75%
+
+--------------------------
 Add the stuff to Qualtrics
 --------------------------
 
+Create the survey in Qualtrics.
+
+In Survey Flow, add the Web Service details as described below.
+
+==========================
+Participant Initialisation
+==========================
+
+In the Survey Flow tab of the Qualtrics survey, add Web Service block near the beginning of the survey.
+
+This may be after the initial "Welcome" page, if you've added one, or after any legal/data collection/consent questions, to give the participant the opportunity to opt-out of beginning the survey if they do not agree with the terms.
+
+Set the URL to ``https://<name_of_survey>.survey.<your_web_host_address>/get_participant/``
+
+Set the ``Method`` to ``GET``
+
+Use the ``Test`` button to ensure a connection is possible to your MetroSurvey installation, and the response is valid.
+
+Save ``session`` as ``session_<name_of_survey>`` in the ``Set Embedded Data`` section. Do this for each MetroSurvey survey in the Qualtrics survey.
+
+============
+JSON Choices
+============
+
+In the Survey Flow tab, add another Web Service block before the question which will be showing the choice card.
+
+This will request the contents of the next choice card from the MetroSurvey service, and the response will be recorded in Qualtrics to populate the choice card before presenting it to the participant.
+
+Set the URL to ``https://<name_of_survey>.survey.<your_web_host_address>/json_choices/``
+
+Set the ``Method`` to ``POST``
+
+Set the ``Body Parameters`` to ``application/json``
+
+Add a Body Parameter with the text ``participant_uuid`` in the first textbox.
+
+After the equals sign select ``String`` from the dropdown.
+
+Selecting the textbox after that dropdown shows the ``Insert Piped Text`` dropdown. Select ``Insert Piped Text >> Embedded Data Field >> session_<name_of_survey>``.
+
+This will result in the field being populated with a string similar to ``${e://Field/session_<name_of_survey>}``
+
+Use the ``Test`` button to ensure a connection is possible to your MetroSurvey installation, and the response is valid.
+
+Select the checkbox to save all of the incoming data, and all of the attributes will be added to the ``Set Embedded Data`` list below.
+
+
+Initial Data
+------------
+
+Add the attribute to the Body Parameters of the ``jsons_choices`` Web Service above, with String selected. To get the data the participant has entered in a previous question, select ``Insert Piped Text >> Survey Question`` and select the question from the list, followed by ``Question Text``.
+
+-------------
 Test it works
 -------------
 
-The Attributes & Levels input file follows a detailed specification.
+.. figure:: _static/block_assignment_widget.PNG
+    :align: center
+    :figwidth: 75%
 
-Two worksheets must be present, names ``Attributes&Levels (2)`` and ``Design Matrix``
+---------------
+Get the results
+---------------
 
-Attributes&Levels (2)
----------------------
-
-Row 1 is blank, and is not read by the importer. This row can be used for any human readable titles
-
-Row 2, Column A must say ``Level``. The rest of this row are the titles of each attribute, lower case, without spaces, one per column. ie "Average Fuel" may become "fuelav".
-
-Row 3 defines the type of attribute each column is describing. This will tell the system how to use each value in the table. Valid entries are ``option``, ``option_nolabel``, ``multiplier``.
-
-Row 4 begins the available choices for each attribute. The ``Level`` column is a number for the option, zero indexed.
-
-If the column is of type ``option``, each row is simply the human readable text which will be presented to the user.
-
-If the column is of type ``text``, each row is simply the human readable text which will be presented to the user.
-
-If the column is of type ``option_nolabel``, this is a number (integer, float) which will be presented to the user.
-
-If the column is of type ``multiplier``, this is a number (integer, float) which will be multiplied by some user entered data as the participant completes the survey.
-
-For example, if "1.2" is entered as one level, and 0.8 as another level, and a survey question asks "What is your current monthly phone bill?" this figure will be multiplied by 1.5 and presented to the user in the resultant table. If the user inputs £10, the table will show options £8 and £12.
-
-If the column is of type ``addition``, this is a number (integer, float) which will be added to, or subtracted from, some user entered data as the participant completes the survey.
+.. figure:: _static/results_download.PNG
+    :align: center
+    :figwidth: 75%
 
 
-If the column is of type ``geographic``, this is a place name, and will be used for presenting on a map in some user interfaces.
-
-If the column is of type ``boolean``, this will be used for True/ False questions. A ``0`` in this cell will return the unicode character of a cross ``&#10060;``. Anything other than a ``0`` will return the unicode for a tick/ check mark ``&#10004;``.
