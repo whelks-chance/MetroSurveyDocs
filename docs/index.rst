@@ -21,6 +21,7 @@ User guide too.
    usage
    input_data
    admins
+   generating_html
 
 
 Indices and tables

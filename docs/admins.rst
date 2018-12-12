@@ -46,7 +46,7 @@ Django admin is used to manage each survey, so first we need an administrator us
 
 and complete the inputs requested.
 
-Via a web browser, navigate to the admin page at ``/admin``. Log in using the credentials just created.
+Via a web browser, navigate to the admin page at ``https://<name_of_survey>.survey.<your_web_host_address>/admin``. Log in using the credentials just created.
 
 At the ``SURVEY UPLOAD`` widget, use the ``Browse`` dialog option to select the Excel spreadsheet of ``Attributes & Levels`` and ``Design Matrix`` worksheets, :doc:`described here </input_data>`.
 
@@ -59,9 +59,7 @@ At the ``SURVEY UPLOAD`` widget, use the ``Browse`` dialog option to select the 
 Get the info from the admin page
 --------------------------------
 
-.. figure:: _static/create_html_widget.PNG
-    :align: center
-    :figwidth: 75%
+Click here for that
 
 --------------------------
 Add the stuff to Qualtrics
